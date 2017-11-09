@@ -15,11 +15,14 @@ class ChordPSO {
     }
 
     ArrayList<Point3D> start() {
+        double startTime = System.nanoTime();
         for(int i = 0; i < 16; i++) {
             globalBest = new Point3D(0, 0, 0);
             bestFitness = 0;
+            System.out.println("Generating chord number: " + (chords.size() + 1));
             chords.add(generate());
         }
+        System.out.println("Execution time for ChordPSO: " + (System.nanoTime() - startTime)/1000000 + "ms");
         return chords;
     }
 
@@ -53,31 +56,35 @@ class ChordPSO {
     }
 
     private void calculateFitness(ArrayList<ChordParticle> list) {
+        int index = chords.size();
         for (ChordParticle p: list) {
             int fit = 0;
-            Point3D pos = p.getPosition();
-            if (pos.getX() == key.getTonic() || pos.getX() == key.getSubdominant()
-                    || pos.getX() == key.getDominant())
-                fit++;
-            if (key.isMajor()) {
-                if (pos.getY() == pos.getX() + 4)
+                Point3D pos = p.getPosition();
+                if (pos.getX() == key.getTonic() || pos.getX() == key.getDominant() ||
+                        pos.getX() == key.getSubdominant()) {
                     fit++;
-                if (pos.getZ() == pos.getY() + 3)
-                    fit++;
+                }
+
+                if (key.isMajor()) {
+                    if (pos.getY() == pos.getX() + 4)
+                        fit++;
+                    if (pos.getZ() == pos.getY() + 3)
+                        fit++;
+                }
+                else {
+                    if (pos.getY() == pos.getX() + 3)
+                        fit++;
+                    if (pos.getZ() == pos.getY() + 4)
+                        fit++;
             }
-            else {
-                if (pos.getY() == pos.getX() + 3)
-                    fit++;
-                if (pos.getZ() == pos.getY() + 4)
-                    fit++;
-            }
-            int index = chords.size();
-            if (index > 2) {
+            if (index > 1) {
                 if (pos.getX() == chords.get(index - 1).getX() &&
-                        pos.getX() == chords.get(index - 2).getX() &&
-                        pos.getX() == chords.get(index - 3).getX())
+                        pos.getX() == chords.get(index - 2).getX())
                     fit = 0;
             }
+
+            if ((index == 15 || index == 0) && pos.getX() != key.getTonic())
+                fit = 0;
 
             p.setFitness(fit);
             if (fit > p.getBestFitness()) {

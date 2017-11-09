@@ -17,11 +17,14 @@ class MusicPSO {
     }
 
     ArrayList<Integer> start() {
+        double startTime = System.nanoTime();
         for (int i = 0; i < 32; i++) {
             globalBest = 0;
             bestFitness = 0;
+            System.out.println("Generating note number: " + (music.size() + 1));
             music.add(generate());
         }
+        System.out.println("Execution time for MusicPSO: " + (System.nanoTime() - startTime)/1000000 + "ms");
         return music;
     }
 
@@ -51,9 +54,13 @@ class MusicPSO {
             int fit = 0;
             int index = music.size();
             int note = p.getPosition();
+            boolean end = index == 31;
             Point3D chord = chords.get(index / 2);
             if (key.isNote(note)) {
-                fit++;
+                if (!end)
+                    fit++;
+                else if (note % 12 == key.getTonic() % 12)
+                    fit++;
             }
             if (index % 2 == 0) {
                 if (note == chord.getX() + 12 || note == chord.getY() + 12 ||
@@ -62,8 +69,16 @@ class MusicPSO {
                 }
             }
             else {
-                if (note > chord.getZ())
-                    fit++;
+                if (!end && note > chord.getZ()) {
+                    if (index > 0 && Math.abs(note - music.get(index - 1)) < 4)
+                        fit++;
+                }
+
+            }
+            if (end) {
+                note = key.getTonic() + 12;
+                fit = 2;
+                p.setPosition(note);
             }
             p.setFitness(fit);
             if (fit > p.getBestFitness()) {

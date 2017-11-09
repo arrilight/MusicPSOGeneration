@@ -20,15 +20,16 @@ public class Main {
             if (i % 2 == 0) {
                 int m = music.get(i);
                 Point3D c = chords.get(i / 2);
-                sb.append(c.getX()).append("h+").append(c.getY()).append("h+").append(c.getZ()).append("h+")
-                        .append(m).append("q ");
+                sb.append(c.getX()).append("qa45+").append(c.getY()).append("qa45+").append(c.getZ()).append("qa45+")
+                        .append(m).append("ia55 ");
             }
             else {
-                sb.append(music.get(i)).append("q ");
+                sb.append(music.get(i)).append("ia55 ");
             }
         }
         MidiWriter writer = new MidiWriter();
-        writer.createMidiFile(1, 120, sb.toString());
+        writer.createMidiFile(100, sb.toString());
+        System.out.println("Midi was created!");
 
     }
 }
