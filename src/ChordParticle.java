@@ -1,18 +1,26 @@
 import java.util.Random;
 
+/**
+ * This class is used to represent the ChordParticle for PSO.
+ * It is a three dimensional point in the space.
+ */
 public class ChordParticle implements Comparable<ChordParticle> {
-    private Point3D position;
-    private Point3D velocity;
-    private Point3D myBest;
-    private int bestFitness;
-    private int fitness;
+    private Point3D position; // position of a particle
+    private Point3D velocity; // velocity of a particle
+    private Point3D myBest; // best location of the particle
+    private int bestFitness; // best fitness that particle ever had
+    private int fitness; // it's current fitenss
 
+    /**
+     * Generate a particle with random values within the range [min; min+12]
+     * @param min is the smallest allowed value for the particle
+     */
     ChordParticle(int min) {
         Random rand = new Random();
         this.position = new Point3D(rand.nextInt(13) + min,
                 rand.nextInt(13) + min, rand.nextInt(13) + min);
         this.velocity = new Point3D(1,
-                1, 1);
+                1, 1); // velocity is always (1, 1, 1) in the start
         bestFitness = -1;
         myBest = new Point3D(min + 1, min, min);
     }

@@ -1,5 +1,8 @@
 import java.util.Random;
 
+/**
+ * This class is used to represent the MusicParticle for PSO.
+ */
 public class MusicParticle {
     private int position;
     private int velocity;
@@ -9,7 +12,7 @@ public class MusicParticle {
 
     public MusicParticle(int min) {
         Random random = new Random();
-        this.position = random.nextInt(12) + min;
+        this.position = random.nextInt(12) + min; //set random position within the range
         this.myBest = position;
         this.velocity = 0;
         this.fitness = 0;
