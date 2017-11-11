@@ -88,10 +88,11 @@ class ChordPSO {
         for (ChordParticle p : list) { // for every particle
             int fit = 0; //initial fitness is zero
             Point3D pos = p.getPosition();
-            if (pos.getX() == key.getTonic() || pos.getX() == key.getDominant() ||
-                    pos.getX() == key.getSubdominant()) { // if the first note is good
+            if (pos.getX() == key.getTonic()) { // if the first note is good
                 fit++;
             }
+            if ((pos.getX() == key.getDominant() || pos.getX() == key.getSubdominant()) && index != 15)
+                fit++;
             //check whether the other notes are good and in the key
             if (key.isMajor()) {
                 if (pos.getY() == pos.getX() + 4)
