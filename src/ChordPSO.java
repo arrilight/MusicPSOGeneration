@@ -11,6 +11,7 @@ class ChordPSO {
     private ArrayList<Point3D> chords; // generated chords
     private Point3D globalBest; // global best point in the search space
     private int bestFitness; // global best fintess in the search space
+    private int numOfIterations;
 
     /**
      * Default constructor.
@@ -31,13 +32,17 @@ class ChordPSO {
      */
     ArrayList<Point3D> start() {
         double startTime = System.nanoTime(); // for statistics
+        long overallIterations = 0;
         for (int i = 0; i < 16; i++) {
             globalBest = new Point3D(0, 0, 0);
             bestFitness = 0;
             System.out.println("Generating chord number: " + (chords.size() + 1));
+            overallIterations += numOfIterations;
+            numOfIterations = 0;
             chords.add(generate());
         }
         System.out.println("Execution time for ChordPSO: " + (System.nanoTime() - startTime) / 1000000 + "ms");
+        System.out.println("Generation took " + overallIterations + " iterations!");
         return chords;
     }
 
@@ -55,6 +60,7 @@ class ChordPSO {
             particles.add(particle);
         }
         while (!isGood()) { //while ending criteria is not met
+            numOfIterations++;
             calculateFitness(particles); // calculate fitness
             findGlobalBest(particles); // find global best
             if (isGood())
@@ -147,6 +153,6 @@ class ChordPSO {
      * @return true if we found the chord, false otherwise
      */
     private boolean isGood() {
-        return bestFitness == 3;
+        return bestFitness == 3 || numOfIterations > 500;
     }
 }

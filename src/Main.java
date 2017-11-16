@@ -17,7 +17,7 @@ public class Main {
         StringBuilder sb = new StringBuilder();
         ChordPSO gen = new ChordPSO(key, 50); //start chordPSO
         ArrayList<Point3D> chords = gen.start();
-        MusicPSO mpso = new MusicPSO(chords, key, 50); //start musicPSO
+        MusicPSO mpso = new MusicPSO(chords, key, 5); //start musicPSO
         ArrayList<Integer> music = mpso.start();
         for (int i = 0; i < 32; i++) {
             if (i % 2 == 0) {
@@ -30,7 +30,7 @@ public class Main {
             }
         }
         MidiWriter writer = new MidiWriter();
-        writer.createMidiFile(100, sb.toString());
+        writer.createMidiFile(120, sb.toString());
         System.out.println("Midi was created!");
     }
 }

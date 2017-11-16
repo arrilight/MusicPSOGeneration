@@ -11,6 +11,7 @@ class MusicPSO {
     private int globalBest; // global best point of the search
     private int bestFitness; // fitness of the global best point
     private int numOfParticles; //number of particles in PSO
+    private int numOfIterations;
 
     MusicPSO(ArrayList<Point3D> chords, Key key, int numOfParticles) {
         this.chords = chords;
@@ -26,13 +27,18 @@ class MusicPSO {
      */
     ArrayList<Integer> start() {
         double startTime = System.nanoTime(); // for statistics
+        long overallIterations = 0;
         for (int i = 0; i < 32; i++) {
             globalBest = 0;
             bestFitness = 0;
             System.out.println("Generating note number: " + (music.size() + 1));
+            overallIterations += numOfIterations;
+            numOfIterations = 0;
             music.add(generate());
         }
         System.out.println("Execution time for MusicPSO: " + (System.nanoTime() - startTime) / 1000000 + "ms");
+        System.out.println("Generation took " + overallIterations + " iterations!");
+        System.out.println(music.get(31));
         return music;
     }
 
@@ -49,6 +55,7 @@ class MusicPSO {
             particles.add(new MusicParticle(min));
         }
         while (!isGood()) { // while ending criteria is not met
+            numOfIterations++;
             calculateFitness(particles); // calculate fitness
             findGlobalBest(particles); // find global best
             for (MusicParticle p : particles) { // update velocity and position for every particle
@@ -72,12 +79,11 @@ class MusicPSO {
             int fit = 0;
             int index = music.size();
             int note = p.getPosition();
-            boolean end = index == 31;
             Point3D chord = chords.get(index / 2); // chord that plays with the note
             if (key.isNote(note)) { // if note is in the key
-                if (!end)
+                if (index != 31)
                     fit++; // fitness+1
-                else if (note % 12 == key.getTonic() % 12)
+                else if (note == key.getTonic() + 12)
                     fit++;
             }
             if (index % 2 == 0) { // if the note is played with the chord
@@ -86,16 +92,11 @@ class MusicPSO {
                     fit++; // and if it is, add fitness
                 }
             } else {
-                if (!end && note > chord.getZ()) {
+                if (note > chord.getZ()) {
                     if (index > 0 && Math.abs(note - music.get(index - 1)) < 4) // if note is not far fro the other note
                         fit++; // add to the fintess
                 }
 
-            }
-            if (end) {
-                note = key.getTonic() + 12;
-                fit = 2;
-                p.setPosition(note);
             }
             p.setFitness(fit);
             if (fit > p.getBestFitness()) {
@@ -124,6 +125,6 @@ class MusicPSO {
     }
 
     private boolean isGood() {
-        return bestFitness == 2;
+        return bestFitness == 2 || numOfIterations > 10000;
     }
 }
