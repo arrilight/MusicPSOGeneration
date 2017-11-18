@@ -93,10 +93,9 @@ class MusicPSO {
                 }
             } else {
                 if (note > chord.getZ()) {
-                    if (index > 0 && Math.abs(note - music.get(index - 1)) < 4) // if note is not far fro the other note
+                    if (index > 0 && Math.abs(note - music.get(index - 1)) < 4) // if note is not far from the other note
                         fit++; // add to the fintess
                 }
-
             }
             p.setFitness(fit);
             if (fit > p.getBestFitness()) {

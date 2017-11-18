@@ -3,14 +3,18 @@ import java.util.Random;
 /**
  * This class is used to represent the MusicParticle for PSO.
  */
-public class MusicParticle {
-    private int position;
-    private int velocity;
-    private int fitness;
-    private int myBest;
-    private int bestFitness;
+class MusicParticle {
+    private int position; // position of a particle
+    private int velocity; // velocity of a particle
+    private int fitness; // it's current fitness
+    private int myBest; // best location of the particle
+    private int bestFitness; // best fitness that particle ever had
 
-    public MusicParticle(int min) {
+    /**
+     * Default constructor generates a random value of a particle within the range [min; min+12]
+     * @param min is the minimal value for a particle
+     */
+    MusicParticle(int min) {
         Random random = new Random();
         this.position = random.nextInt(12) + min; //set random position within the range
         this.myBest = position;
@@ -19,43 +23,43 @@ public class MusicParticle {
         this.bestFitness = 0;
     }
 
-    public int getPosition() {
+    int getPosition() {
         return position;
     }
 
-    public void setPosition(int position) {
+    void setPosition(int position) {
         this.position = position;
     }
 
-    public int getVelocity() {
+    int getVelocity() {
         return velocity;
     }
 
-    public void setVelocity(int velocity) {
+    void setVelocity(int velocity) {
         this.velocity = velocity;
     }
 
-    public int getFitness() {
+    int getFitness() {
         return fitness;
     }
 
-    public void setFitness(int fitness) {
+    void setFitness(int fitness) {
         this.fitness = fitness;
     }
 
-    public int getMyBest() {
+    int getMyBest() {
         return myBest;
     }
 
-    public void setMyBest(int myBest) {
+    void setMyBest(int myBest) {
         this.myBest = myBest;
     }
 
-    public int getBestFitness() {
+    int getBestFitness() {
         return bestFitness;
     }
 
-    public void setBestFitness(int bestFitness) {
+    void setBestFitness(int bestFitness) {
         this.bestFitness = bestFitness;
     }
 }

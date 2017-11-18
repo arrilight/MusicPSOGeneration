@@ -4,7 +4,7 @@ public class Point3D {
      */
     private int x, y, z; // coordinates
 
-    Point3D (int x, int y, int z) { // create the point
+    Point3D(int x, int y, int z) { // create the point
         this.x = x;
         this.y = y;
         this.z = z;

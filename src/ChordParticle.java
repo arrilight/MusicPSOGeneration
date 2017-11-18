@@ -4,15 +4,15 @@ import java.util.Random;
  * This class is used to represent the ChordParticle for PSO.
  * It is a three dimensional point in the space.
  */
-public class ChordParticle implements Comparable<ChordParticle> {
+class ChordParticle {
     private Point3D position; // position of a particle
     private Point3D velocity; // velocity of a particle
     private Point3D myBest; // best location of the particle
     private int bestFitness; // best fitness that particle ever had
-    private int fitness; // it's current fitenss
+    private int fitness; // it's current fitness
 
     /**
-     * Generate a particle with random values within the range [min; min+12]
+     * Generates a particle with random values within the range [min; min+12]
      * @param min is the smallest allowed value for the particle
      */
     ChordParticle(int min) {
@@ -25,49 +25,44 @@ public class ChordParticle implements Comparable<ChordParticle> {
         myBest = new Point3D(min + 1, min, min);
     }
 
-    public Point3D getPosition() {
+    Point3D getPosition() {
         return position;
     }
 
-    public void setPosition(Point3D position) {
+    void setPosition(Point3D position) {
         this.position = position;
     }
 
-    public Point3D getVelocity() {
+    Point3D getVelocity() {
         return velocity;
     }
 
-    public void setVelocity(Point3D velocity) {
+    void setVelocity(Point3D velocity) {
         this.velocity = velocity;
     }
 
-    public Point3D getMyBest() {
+    Point3D getMyBest() {
         return myBest;
     }
 
-    public void setMyBest(Point3D myBest) {
+    void setMyBest(Point3D myBest) {
         this.myBest = myBest;
     }
 
-    public int getBestFitness() {
+    int getBestFitness() {
         return bestFitness;
     }
 
-    public void setBestFitness(int bestFitness) {
+    void setBestFitness(int bestFitness) {
         this.bestFitness = bestFitness;
     }
 
-    public int getFitness() {
+    int getFitness() {
         return fitness;
     }
 
-    public void setFitness(int fitness) {
+    void setFitness(int fitness) {
         this.fitness = fitness;
-    }
-
-    @Override
-    public int compareTo(ChordParticle o) {
-        return Integer.compare(o.fitness, this.fitness);
     }
 }
 
